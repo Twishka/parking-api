@@ -55,5 +55,9 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage"
+  },
+  "engines": {
+    "node": "9",
+    "yarn": "1.7.0"
   }
 }
