@@ -1,4 +1,4 @@
-import { Get, Controller, Param, Post, Body } from '@nestjs/common';
+import { Get, Controller, Param, Query, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as dateFns from 'date-fns';
 
@@ -9,22 +9,23 @@ export class AppController {
   @Get()
   showSpots() {
     return [
-      {'number': 1, status: 'free'},
-      {'number': 2, status: 'booked'},
-      {'number': 3, status: 'out'},
-      {'number': 4, status: 'free'},
-      {'number': 5, status: 'booked'},
-      {'number': 6, status: 'out'},
-      {'number': 7, status: 'booked'},
-      {'number': 8, status: 'free'},
-      {'number': 9, status: 'booked'},
-      {'number': 10, status: 'free'},
+      {'number': 1, 'status': 'free'},
+      {'number': 2, 'status': 'booked'},
+      {'number': 3, 'status': 'out'},
+      {'number': 4, 'status': 'free'},
+      {'number': 5, 'status': 'booked'},
+      {'number': 6, 'status': 'out'},
+      {'number': 7, 'status': 'free'}
     ];
   }
 
   @Post()
   create(@Body() params) {
-    return `Spot #${params.number} is booked for ${dateFns.format(params.date, 'DD.MM.YYYY')}`;
+    return {
+      'status': 'success',
+      'number': params.number,
+      'endDate': params.endDate
+    }
   }
 
   @Get('/user/:id/balance')
@@ -34,10 +35,10 @@ export class AppController {
   }
 
   @Get('/user/:id/history')
-  showHistory(@Param() params) {
+  showUserHistory(@Query('start') start, @Query('end') end) {
     return [
-      {'date': new Date(2018, 8, 2), 'place': 26, 'cost': 30}, 
-      {'date': new Date(2018, 8, 3), 'place': 26, 'cost': 30}
+      {'startDate': new Date(2018, 8, 2), 'endDate': new Date(2018, 8, 10), 'place': 26, 'cost': 240}, 
+      {'startDate': new Date(2018, 8, 3), 'endDate': new Date(2018, 8, 5), 'place': 13, 'cost': 60}
     ];
   }
 
@@ -82,6 +83,40 @@ export class AppController {
             'model': 'DB11'
           },
         ],
+      }
+    ]
+  }
+
+  @Get('/history')
+  showHistory(@Query('start') start, @Query('end') end) {
+    return [
+      {
+        'userId': 1,
+        'spot': 5,
+        'startDate': new Date(2018, 8, 6),
+        'endDate': new Date(2018, 8, 10),
+        'cost': 120
+      },
+      {
+        'userId': 8,
+        'spot': 3,
+        'startDate': new Date(2018, 8, 15),
+        'endDate': new Date(2018, 8, 17),
+        'cost': 60
+      }
+    ]
+  }
+
+  @Get('/history/rates')
+  showRatesHistory(@Query('start') start, @Query('end') end) {
+    return [
+      {
+        'rate': 30,
+        'startDate': new Date(2018, 7, 21),
+      },
+      {
+        'rate': 25,
+        'startDate': new Date(2018, 6, 13),
       }
     ]
   }
