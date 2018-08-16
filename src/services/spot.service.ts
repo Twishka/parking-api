@@ -10,8 +10,34 @@ export class SpotService {
     private readonly spotRepository: Repository<Spot>,
   ) {}
 
-  async findAll(): Promise<Spot[]> {
-    return this.spotRepository.find();
+  findAll(): Promise<Spot[]> {
+    const spots = this.spotRepository
+      .find({ relations: ["bookings"] })
+      .then(spots => {
+        const today = new Date()
+        const newSpots = spots.map(spot => {
+          if (spot.bookings.length && spot.status !== "out") {
+            for (const booking of spot.bookings) {
+              const bookedToday = booking.startDate < today && today < booking.endDate ? true : false;
+              if (bookedToday) {
+                spot.status = "booked"
+                return spot
+              }
+            }
+            spot.status = "free"
+            return spot
+          }
+          if (spot.status === "available") {
+            spot.status = "free"
+            return spot
+          } else {
+            return spot;
+          }
+        })
+        console.log(newSpots)
+        return spots
+      });
+    return spots
   }
 
   async addSpot(spot: Spot) {

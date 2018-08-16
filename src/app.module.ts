@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from 'controllers/app.controller';
+import { UserController } from 'controllers/user.controller';
+import { SpotController } from 'controllers/spot.controller'
 import { SpotService } from 'services/spot.service';
 import { BookingService } from 'services/booking.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,7 +18,7 @@ import { UserService } from 'services/user.service';
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([Spot, Booking, Car, User, Rate])
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController, SpotController],
   providers: [SpotService, BookingService, UserService],
 })
 export class AppModule {

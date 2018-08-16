@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from 'entities/user.entity';
+import { Spot } from 'entities/spot.entity';
 
 @Entity()
 export class Booking {
@@ -16,5 +17,8 @@ export class Booking {
   endDate: Date;
 
   @ManyToOne(type => User, user => user.bookings)
-    user: User;
+  user: User;
+
+  @ManyToOne(type => Spot, spot => spot.bookings)
+  spot: Spot;
 }
