@@ -1,10 +1,24 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from 'controllers/app.controller';
+import { SpotService } from 'services/spot.service';
+import { BookingService } from 'services/booking.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { Spot } from 'entities/spot.entity';
+import { Booking } from 'entities/booking.entity';
+import { Car } from 'entities/car.entity';
+import { User } from 'entities/user.entity';
+import { Rate } from 'entities/rate.entity';
+import { UserService } from 'services/user.service';
 
 @Module({
-  imports: [],
+  imports: [
+    TypeOrmModule.forRoot(),
+    TypeOrmModule.forFeature([Spot, Booking, Car, User, Rate])
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [SpotService, BookingService, UserService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly connection: Connection) {}
+}
