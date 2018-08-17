@@ -3,7 +3,7 @@ import { Booking } from 'entities/booking.entity';
 import { BookingService } from 'services/booking.service';
 
 @Controller()
-export class AppController {
+export class BookingController {
   constructor(
     private readonly bookingService: BookingService,
   ) {}
@@ -15,11 +15,11 @@ export class AppController {
 
   @Get('/history')
   showHistory(@Query('start') start, @Query('end') end) {
-    return this.bookingService.getBookings();
+    return this.bookingService.getBookings(start, end);
   }
 
   @Get('/history/rates')
   showRatesHistory(@Query('start') start, @Query('end') end) {
-    return this.bookingService.getRatesHistory();
+    return this.bookingService.getRatesHistory(start, end);
   }
 }

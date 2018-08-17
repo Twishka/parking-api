@@ -7,13 +7,10 @@ export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  number: number;
-
-  @Column()
+  @Column("date")
   startDate: Date;
 
-  @Column()
+  @Column("date")
   endDate: Date;
 
   @ManyToOne(type => User, user => user.bookings)

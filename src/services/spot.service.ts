@@ -10,7 +10,7 @@ export class SpotService {
     private readonly spotRepository: Repository<Spot>,
   ) {}
 
-  findAll(): Promise<Spot[]> {
+  getSpots(): Promise<Spot[]> {
     const spots = this.spotRepository
       .find({ relations: ["bookings"] })
       .then(spots => {

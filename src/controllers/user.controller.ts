@@ -23,10 +23,7 @@ export class UserController {
   }
 
   @Get('/user/:id/history')
-  showUserHistory(@Query('start') start, @Query('end') end) {
-    return [
-      {'startDate': new Date(2018, 8, 2), 'endDate': new Date(2018, 8, 10), 'place': 26, 'cost': 240}, 
-      {'startDate': new Date(2018, 8, 3), 'endDate': new Date(2018, 8, 5), 'place': 13, 'cost': 60}
-    ];
+  showUserHistory(@Param() params, @Query('start') start, @Query('end') end) {
+    return this.userService.getUserHistory(params.id, start, end)
   }
 }

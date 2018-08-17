@@ -14,7 +14,7 @@ export class BookingService {
     private readonly rateRepository: Repository<Rate>
   ) {}
 
-  async getBookings(): Promise<Booking[]> {
+  async getBookings(start, end): Promise<Booking[]> {
     return this.bookingRepository.find();
   }
 
@@ -22,7 +22,7 @@ export class BookingService {
     return this.bookingRepository.save(booking);
   }
 
-  async getRatesHistory(): Promise<Rate[]> {
+  async getRatesHistory(start, end): Promise<Rate[]> {
     return this.rateRepository.find();
   }
 }

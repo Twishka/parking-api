@@ -1,13 +1,17 @@
 import { Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository, FindOneOptions, MoreThan, LessThan, Not } from 'typeorm';
 import { User } from 'entities/user.entity';
+import { Booking } from 'entities/booking.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(Booking)
+    private readonly bookingRepository: Repository<Booking>,
   ) {}
 
   async getAllUsers(): Promise<User[]> {
@@ -25,5 +29,11 @@ export class UserService {
   async getBalance(id: number) {
     const user = await this.userRepository.findOne(id);
     return user.balance
+  }
+
+  async getUserHistory(id: number, start: Date, end: Date) {
+    console.log(start, end)
+    const startDate = start.toString().substring(0, 10)
+    return await this.bookingRepository.find({ where: { user: id, startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) }, relations: ["user"] });
   }
 }
