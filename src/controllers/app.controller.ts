@@ -15,20 +15,11 @@ export class AppController {
 
   @Get('/history')
   showHistory(@Query('start') start, @Query('end') end) {
-    return this.bookingService.showBookings();
+    return this.bookingService.getBookings();
   }
 
   @Get('/history/rates')
   showRatesHistory(@Query('start') start, @Query('end') end) {
-    return [
-      {
-        'rate': 30,
-        'startDate': new Date(2018, 7, 21),
-      },
-      {
-        'rate': 25,
-        'startDate': new Date(2018, 6, 13),
-      }
-    ]
+    return this.bookingService.getRatesHistory();
   }
 }

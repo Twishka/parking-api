@@ -10,7 +10,7 @@ export class SpotController {
 
   @Get()
   showSpots() {
-    return this.spotService.findAll();
+    return this.spotService.getSpots();
   }
 
   @Post()
