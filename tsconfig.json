@@ -2,8 +2,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "removeComments": true,
+    "strict": true,
     "noLib": false,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
@@ -12,7 +13,9 @@
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "noEmitOnError": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     "src/**/*"

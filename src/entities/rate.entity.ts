@@ -8,6 +8,6 @@ export class Rate {
   @Column()
   rate: number;
 
-  @Column()
+  @Column("date")
   startDate: Date;
 }

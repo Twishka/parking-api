@@ -14,12 +14,12 @@ export class BookingController {
   }
 
   @Get('/history')
-  showHistory(@Query('start') start, @Query('end') end) {
+  showHistory(@Query('start') start: Date, @Query('end') end: Date) {
     return this.bookingService.getBookings(start, end);
   }
 
   @Get('/history/rates')
-  showRatesHistory(@Query('start') start, @Query('end') end) {
+  showRatesHistory(@Query('start') start: Date, @Query('end') end: Date) {
     return this.bookingService.getRatesHistory(start, end);
   }
 }

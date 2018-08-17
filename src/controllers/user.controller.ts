@@ -13,17 +13,17 @@ export class UserController {
   }
 
   @Get('/user/:id')
-  getUser(@Param() params) {
+  getUser(@Param() params: {id: number}) {
     return this.userService.getUser(params.id);
   }
 
   @Get('/user/:id/balance')
-  showBalance(@Param() params) {
+  showBalance(@Param() params: {id: number}) {
     return this.userService.getBalance(params.id)
   }
 
   @Get('/user/:id/history')
-  showUserHistory(@Param() params, @Query('start') start, @Query('end') end) {
+  showUserHistory(@Param() params: {id: number}, @Query('start') start: Date, @Query('end') end: Date) {
     return this.userService.getUserHistory(params.id, start, end)
   }
 }
