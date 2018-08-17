@@ -34,7 +34,6 @@ export class SpotService {
             return spot;
           }
         })
-        console.log(newSpots)
         return spots
       });
     return spots

@@ -15,7 +15,8 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "noEmitOnError": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

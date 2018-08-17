@@ -36,8 +36,6 @@ export class UserService {
   }
 
   async getUserHistory(id: number, start: Date, end: Date) {
-    console.log(start, end)
-    const startDate = start.toString().substring(0, 10)
     return await this.bookingRepository.find(
       { where: { user: id, startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) }, relations: ["user"] }
     );
