@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from 'app.module';
+import { AppModule } from './app.module';
 import { createConnection, ConnectionOptions } from "typeorm";
+import * as cors from 'cors';
 
 const dbSettings: ConnectionOptions = {
   type: "postgres",
@@ -18,6 +19,7 @@ async function bootstrap() {
   .catch(error => console.log(error));
 
   const app = await NestFactory.create(AppModule);
+  app.use(cors());
   await app.listen(process.env.NODE_ENV === 'production' ? 5000 : 3000);
 }
 
