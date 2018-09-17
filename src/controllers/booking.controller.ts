@@ -10,7 +10,7 @@ export class BookingController {
 
   @Post()
   create(@Body() booking: Booking) {
-    return this.bookingService.bookSpot(booking)
+    return this.bookingService.bookSpot(booking);
   }
 
   @Get('/history')
