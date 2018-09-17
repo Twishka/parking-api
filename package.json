@@ -9,7 +9,7 @@
     "start:tsnode": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "postinstall": "rm -rf dist && tsc",
-    "start": "node dist/main.js",
+    "start": "node dist/index.js",
     "start:hmr": "node dist/server",
     "test": "jest",
     "test:cov": "jest --coverage",
