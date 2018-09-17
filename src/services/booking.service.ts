@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Not, MoreThan, LessThan, Between } from 'typeorm';
-import { Booking } from 'entities/booking.entity';
-import { Rate } from 'entities/rate.entity';
+import { Repository, Not, MoreThan, LessThan } from 'typeorm';
+import { Booking } from '../entities/booking.entity';
+import { Rate } from '../entities/rate.entity';
 
 @Injectable()
 export class BookingService {
@@ -11,7 +11,7 @@ export class BookingService {
     private readonly bookingRepository: Repository<Booking>,
 
     @InjectRepository(Rate)
-    private readonly rateRepository: Repository<Rate>
+    private readonly rateRepository: Repository<Rate>,
   ) {}
 
   async getBookings(start: Date, end: Date): Promise<Booking[]> {
@@ -25,12 +25,12 @@ export class BookingService {
   }
 
   async getRatesHistory(start: Date, end: Date): Promise<Rate[]> {
-    if(start && end) {
+    if (start && end) {
       return this.rateRepository.find(
-        { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } }
+        { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } },
       );
     } else {
-      return this.rateRepository.find()
+      return this.rateRepository.find();
     }
   }
 }

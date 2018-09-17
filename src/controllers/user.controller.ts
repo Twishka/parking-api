@@ -1,10 +1,10 @@
-import { Get, Controller, Param, Query, Post, Body } from '@nestjs/common';
-import { UserService } from 'services/user.service'
+import { Get, Controller, Param, Query } from '@nestjs/common';
+import { UserService } from '../services/user.service';
 
 @Controller()
 export class UserController {
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   @Get('/user')
@@ -19,11 +19,11 @@ export class UserController {
 
   @Get('/user/:id/balance')
   showBalance(@Param() params: {id: number}) {
-    return this.userService.getBalance(params.id)
+    return this.userService.getBalance(params.id);
   }
 
   @Get('/user/:id/history')
   showUserHistory(@Param() params: {id: number}, @Query('start') start: Date, @Query('end') end: Date) {
-    return this.userService.getUserHistory(params.id, start, end)
+    return this.userService.getUserHistory(params.id, start, end);
   }
 }

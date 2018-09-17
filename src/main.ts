@@ -1,17 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { createConnection, ConnectionOptions } from "typeorm";
+import { createConnection, ConnectionOptions } from 'typeorm';
 import * as cors from 'cors';
 
 const dbSettings: ConnectionOptions = {
-  type: "postgres",
-  host: "lermex.site",
+  type: 'postgres',
+  host: 'lermex.site',
   port: 18874,
-  username: "postgres",
-  password: "212a418416367de527745b4731f94336",
-  database: "parking_api_database",
-  entities: ["src/**/**.entity{.ts,.js}"],
-  synchronize: true
+  username: 'postgres',
+  password: '212a418416367de527745b4731f94336',
+  database: 'parking_api_database',
+  entities: ['src/**/**.entity{.ts,.js}'],
+  synchronize: true,
 };
 
 async function bootstrap() {

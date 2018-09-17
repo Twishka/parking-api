@@ -1,6 +1,6 @@
 import { Get, Controller, Post, Body } from '@nestjs/common';
-import { SpotService } from 'services/spot.service';
-import { Spot } from 'entities/spot.entity'
+import { SpotService } from '../services/spot.service';
+import { Spot } from '../entities/spot.entity';
 
 @Controller()
 export class SpotController {
@@ -15,6 +15,6 @@ export class SpotController {
 
   @Post()
   addSpot(@Body() spot: Spot) {
-    return this.spotService.addSpot(spot)
+    return this.spotService.addSpot(spot);
   }
 }

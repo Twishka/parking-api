@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Booking } from 'entities/booking.entity';
-import { Car } from 'entities/car.entity';
+import { Booking } from './booking.entity';
+import { Car } from './car.entity';
 
 @Entity()
 export class User {
@@ -26,11 +26,11 @@ export class User {
   balance: number;
 
   @Column()
-  status: "active" | "inactive"
+  status: 'active' | 'inactive';
 
   @OneToMany(type => Booking, booking => booking.user)
     bookings: Booking[];
 
   @OneToMany(type => Car, car => car.owner)
-    cars: Car[]
+    cars: Car[];
 }

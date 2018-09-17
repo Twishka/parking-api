@@ -5,13 +5,13 @@ import { SpotService } from './services/spot.service';
 import { BookingService } from './services/booking.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
+import { UserService } from './services/user.service';
+import { BookingController } from './controllers/booking.controller';
 import { Spot } from './entities/spot.entity';
 import { Booking } from './entities/booking.entity';
 import { Car } from './entities/car.entity';
-import { User } from 'entities/user.entity';
+import { User } from './entities/user.entity';
 import { Rate } from './entities/rate.entity';
-import { UserService } from './services/user.service';
-import { BookingController } from './controllers/booking.controller';
 
 @Module({
   imports: [

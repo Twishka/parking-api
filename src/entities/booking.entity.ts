@@ -1,16 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from 'entities/user.entity';
-import { Spot } from 'entities/spot.entity';
+import { User } from './user.entity';
+import { Spot } from './spot.entity';
 
 @Entity()
 export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("date")
+  @Column('date')
   startDate: Date;
 
-  @Column("date")
+  @Column('date')
   endDate: Date;
 
   @ManyToOne(type => User, user => user.bookings)

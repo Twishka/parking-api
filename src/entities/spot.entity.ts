@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Booking } from 'entities/booking.entity';
+import { Booking } from './booking.entity';
 
 @Entity()
 export class Spot {
@@ -10,8 +10,8 @@ export class Spot {
   number: number;
 
   @Column()
-  status: 'free' | 'booked' | 'out' | 'available';
+  closedForMaintenance: boolean;
 
   @OneToMany(type => Booking, booking => booking.spot)
-  bookings: Booking[]
+  bookings: Booking[];
 }

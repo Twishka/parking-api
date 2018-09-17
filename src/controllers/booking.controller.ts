@@ -1,6 +1,6 @@
-import { Get, Controller, Param, Query, Post, Body } from '@nestjs/common';
-import { Booking } from 'entities/booking.entity';
-import { BookingService } from 'services/booking.service';
+import { Get, Controller, Query, Post, Body } from '@nestjs/common';
+import { BookingService } from '../services/booking.service';
+import { Booking } from '../entities/booking.entity';
 
 @Controller()
 export class BookingController {

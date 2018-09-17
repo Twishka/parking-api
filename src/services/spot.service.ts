@@ -1,7 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Spot } from 'entities/spot.entity';
+import { Spot } from '../entities/spot.entity';
+import { SpotDto } from '../dto/spot.dto';
+
+const determineStatus = (spot: Spot): 'out' | 'free' | 'booked'  => {
+  if (spot.closedForMaintenance) return 'out';
+  if (!spot.bookings.length) return 'free';
+
+  const today = new Date();
+  return spot.bookings
+    .find(booking => booking.startDate < today && today < booking.endDate)
+    ? 'booked' : 'free';
+};
 
 @Injectable()
 export class SpotService {
@@ -10,33 +21,14 @@ export class SpotService {
     private readonly spotRepository: Repository<Spot>,
   ) {}
 
-  getSpots(): Promise<Spot[]> {
-    const spots = this.spotRepository
-      .find({ relations: ["bookings"] })
-      .then(spots => {
-        const today = new Date()
-        const newSpots = spots.map(spot => {
-          if (spot.bookings.length && spot.status !== "out") {
-            for (const booking of spot.bookings) {
-              const bookedToday = booking.startDate < today && today < booking.endDate ? true : false;
-              if (bookedToday) {
-                spot.status = "booked"
-                return spot
-              }
-            }
-            spot.status = "free"
-            return spot
-          }
-          if (spot.status === "available") {
-            spot.status = "free"
-            return spot
-          } else {
-            return spot;
-          }
-        })
-        return spots
-      });
-    return spots
+  async getSpots(): Promise<SpotDto[]> {
+    const spots = await this.spotRepository.find({relations: ['bookings']});
+
+    return spots.map(spot => ({
+      number: spot.number,
+      bookings: spot.bookings,
+      status: determineStatus(spot),
+    }));
   }
 
   async addSpot(spot: Spot) {
