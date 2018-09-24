@@ -7,10 +7,9 @@ import { SpotDto } from '../dto/spot.dto';
 const determineStatus = (spot: Spot): 'out' | 'free' | 'booked'  => {
   if (spot.closedForMaintenance) return 'out';
   if (!spot.bookings.length) return 'free';
-
   const today = new Date();
-  return spot.bookings
-    .find(booking => booking.startDate < today && today < booking.endDate)
+  return !!spot.bookings
+    .find(booking => new Date(booking.startDate) < today && today < new Date(booking.endDate))
     ? 'booked' : 'free';
 };
 
@@ -23,7 +22,6 @@ export class SpotService {
 
   async getSpots(): Promise<SpotDto[]> {
     const spots = await this.spotRepository.find({relations: ['bookings']});
-
     return spots.map(spot => ({
       number: spot.number,
       bookings: spot.bookings,
