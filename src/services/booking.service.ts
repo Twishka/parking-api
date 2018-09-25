@@ -3,6 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not, MoreThan, LessThan } from 'typeorm';
 import { Booking } from '../entities/booking.entity';
 import { Rate } from '../entities/rate.entity';
+import { Spot } from '../entities/spot.entity';
+import { SpotService } from './spot.service';
+import { UserService } from './user.service';
+
+interface BookingInput {
+  startDate: Date;
+  endDate: Date;
+  userId: number;
+  spotId: number;
+}
 
 @Injectable()
 export class BookingService {
@@ -12,6 +22,12 @@ export class BookingService {
 
     @InjectRepository(Rate)
     private readonly rateRepository: Repository<Rate>,
+
+    @InjectRepository(Spot)
+    private readonly spotRepository: Repository<Spot>,
+
+    private readonly spotService: SpotService,
+    private readonly userService: UserService,
   ) {}
 
   async getBookings(start: Date, end: Date): Promise<Booking[]> {
@@ -20,7 +36,16 @@ export class BookingService {
     );
   }
 
-  async bookSpot(booking: Booking) {
+  async bookSpot(bookingInput: BookingInput) {
+    const spot = await this.spotService.getSpotById(bookingInput.spotId);
+    const user = await this.userService.getUser(bookingInput.userId);
+    if (!spot || !user) return 'userId or spotId missing';
+    const booking: Booking = {
+      startDate: bookingInput.startDate,
+      endDate: bookingInput.endDate,
+      spot,
+      user,
+    };
     return this.bookingRepository.save(booking);
   }
 

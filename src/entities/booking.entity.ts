@@ -5,7 +5,7 @@ import { Spot } from './spot.entity';
 @Entity()
 export class Booking {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column('date')
   startDate: Date;

@@ -32,4 +32,8 @@ export class SpotService {
   async addSpot(spot: Spot) {
     return this.spotRepository.save(spot);
   }
+
+  async getSpotById(id: number) {
+    return this.spotRepository.findOne({ where: {id} });
+  }
 }
