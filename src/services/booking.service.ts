@@ -6,13 +6,7 @@ import { Rate } from '../entities/rate.entity';
 import { Spot } from '../entities/spot.entity';
 import { SpotService } from './spot.service';
 import { UserService } from './user.service';
-
-interface BookingInput {
-  startDate: Date;
-  endDate: Date;
-  userId: number;
-  spotId: number;
-}
+import { BookingDto } from '../dto/booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -36,10 +30,27 @@ export class BookingService {
     );
   }
 
-  async bookSpot(bookingInput: BookingInput) {
+  async bookSpot(bookingInput: BookingDto) {
     const spot = await this.spotService.getSpotById(bookingInput.spotId);
     const user = await this.userService.getUser(bookingInput.userId);
     if (!spot || !user) return 'userId or spotId missing';
+
+    if (bookingInput.endDate < bookingInput.startDate) {
+      return 'startDate has to be earlier than endDate';
+    }
+
+    const taken = await this.bookingRepository.find(
+      { where: {
+          spot,
+          startDate: Not(MoreThan(bookingInput.endDate)),
+          endDate: Not(LessThan(bookingInput.startDate)),
+      } },
+    );
+
+    if (taken.length > 0) {
+      return 'The spot is already taken';
+    }
+
     const booking: Booking = {
       startDate: bookingInput.startDate,
       endDate: bookingInput.endDate,

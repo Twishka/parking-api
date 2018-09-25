@@ -1,6 +1,6 @@
 import { Get, Controller, Query, Post, Body } from '@nestjs/common';
 import { BookingService } from '../services/booking.service';
-import { Booking } from '../entities/booking.entity';
+import { BookingDto } from '../dto/booking.dto';
 
 @Controller()
 export class BookingController {
@@ -9,8 +9,7 @@ export class BookingController {
   ) {}
 
   @Post()
-  async create(@Body() booking: Booking) {
-    console.log(booking);
+  async create(@Body() booking: BookingDto) {
     return this.bookingService.bookSpot(booking);
   }
 
