@@ -16,7 +16,7 @@ export class BookingService {
 
   async getBookings(start: Date, end: Date): Promise<Booking[]> {
     return this.bookingRepository.find(
-      { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } }
+      { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } },
     );
   }
 
@@ -32,5 +32,10 @@ export class BookingService {
     } else {
       return this.rateRepository.find();
     }
+  }
+
+  async getCurrentRate(): Promise<number  | undefined> {
+    const rate = await this.rateRepository.findOne({order: {id: 'DESC'}});
+    return !!rate ? rate.rate : rate;
   }
 }

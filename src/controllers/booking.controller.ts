@@ -9,7 +9,8 @@ export class BookingController {
   ) {}
 
   @Post()
-  create(@Body() booking: Booking) {
+  async create(@Body() booking: Booking) {
+    console.log(booking);
     return this.bookingService.bookSpot(booking);
   }
 
@@ -21,5 +22,10 @@ export class BookingController {
   @Get('/history/rates')
   showRatesHistory(@Query('start') start: Date, @Query('end') end: Date) {
     return this.bookingService.getRatesHistory(start, end);
+  }
+
+  @Get('/rate')
+  showCurrentRate() {
+    return this.bookingService.getCurrentRate();
   }
 }
