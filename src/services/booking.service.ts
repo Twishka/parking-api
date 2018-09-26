@@ -25,12 +25,16 @@ export class BookingService {
   ) {}
 
   async getBookings(start: Date, end: Date): Promise<Booking[]> {
+    if (!start || !end) {
+      return this.bookingRepository.find();
+    }
     return this.bookingRepository.find(
       { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } },
     );
   }
 
   async bookSpot(bookingInput: BookingDto) {
+    if (Object.keys(bookingInput).length === 0) return 'Wrong input format';
     const spot = await this.spotService.getSpotById(bookingInput.spotId);
     const user = await this.userService.getUser(bookingInput.userId);
     if (!spot || !user) return 'userId or spotId missing';
