@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not, MoreThan, LessThan } from 'typeorm';
 import { Booking } from '../entities/booking.entity';
@@ -34,13 +34,17 @@ export class BookingService {
   }
 
   async bookSpot(bookingInput: BookingDto) {
-    if (Object.keys(bookingInput).length === 0) return 'Wrong input format';
+    if (Object.keys(bookingInput).length === 0) {
+      throw new BadRequestException('Wrong input format');
+    }
     const spot = await this.spotService.getSpotById(bookingInput.spotId);
     const user = await this.userService.getUser(bookingInput.userId);
-    if (!spot || !user) return 'userId or spotId missing';
+    if (!spot || !user) {
+      throw new BadRequestException('userId or spotId missing');
+    }
 
     if (bookingInput.endDate < bookingInput.startDate) {
-      return 'startDate has to be earlier than endDate';
+      throw new BadRequestException('startDate has to be earlier than endDate');
     }
 
     const taken = await this.bookingRepository.find(
@@ -52,7 +56,7 @@ export class BookingService {
     );
 
     if (taken.length > 0) {
-      return 'The spot is already taken';
+      throw new BadRequestException('The spot is already taken');
     }
 
     const booking: Booking = {
