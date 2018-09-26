@@ -25,6 +25,9 @@ export class BookingService {
   ) {}
 
   async getBookings(start: Date, end: Date): Promise<Booking[]> {
+    if (!start || !end) {
+      return this.bookingRepository.find();
+    }
     return this.bookingRepository.find(
       { where: { startDate: Not(MoreThan(end)), endDate: Not(LessThan(start)) } },
     );
