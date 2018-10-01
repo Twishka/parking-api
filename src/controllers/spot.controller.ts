@@ -1,4 +1,4 @@
-import { Get, Controller, Post, Body } from '@nestjs/common';
+import { Get, Controller, Post, Body, Query } from '@nestjs/common';
 import { SpotService } from '../services/spot.service';
 import { Spot } from '../entities/spot.entity';
 
@@ -9,8 +9,8 @@ export class SpotController {
   ) {}
 
   @Get()
-  showSpots() {
-    return this.spotService.getSpots();
+  showSpots(@Query('start') start: Date, @Query('end') end: Date) {
+    return this.spotService.getSpots(start, end);
   }
 
   @Post()

@@ -13,9 +13,6 @@ import { Car } from './entities/car.entity';
 import { User } from './entities/user.entity';
 import { Rate } from './entities/rate.entity';
 
-console.log('db-url:');
-console.log(process.env.DATABASE_URL);
-
 const db = process.env.DATABASE_URL
   ? {url: process.env.DATABASE_URL}
   : { host: 'lermex.site',
