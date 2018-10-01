@@ -9,7 +9,7 @@ const determineStatus = (spot: Spot, start: Date | null, end: Date | null): 'out
   if (!spot.bookings.length) return 'free';
   if (!!start && !!end) {
     return !!spot.bookings
-      .find(booking => booking.startDate < end && start < booking.endDate)
+      .find(booking => new Date(booking.startDate) < new Date(end) && new Date(start) < new Date(booking.endDate))
       ? 'booked' : 'free';
   }
   const today = new Date();
