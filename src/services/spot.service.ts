@@ -13,7 +13,8 @@ const determineStatus = (spot: Spot, start: Date | null, end: Date | null): 'out
       ? 'booked' : 'free';
   }
   const today = new Date();
-  today.setHours(3, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  spot.bookings.forEach(booking => console.log(new Date(booking.startDate)));
   return !!spot.bookings
     .find(booking => new Date(booking.startDate) <= today && today <= new Date(booking.endDate))
     ? 'booked' : 'free';
